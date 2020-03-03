@@ -14,6 +14,7 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.test.context.junit4.SpringRunner;
 
 import java.io.IOException;
+import java.util.List;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
@@ -32,6 +33,14 @@ public class Springboot03ElasticApplicationTests {
         book.setBookName("西游记");
         book.setAuthor("吴承恩");
         bookRepository.index(book);
+    }
+
+    @Test
+    public void test03() {
+        List<Book> books = bookRepository.findByBookNameLike("游记");
+        for (Book book : books) {
+            System.out.println(book);
+        }
     }
 
     @Test
