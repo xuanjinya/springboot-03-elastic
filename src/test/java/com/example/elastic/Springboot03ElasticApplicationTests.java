@@ -1,6 +1,8 @@
 package com.example.elastic;
 
 import com.example.elastic.bean.Article;
+import com.example.elastic.bean.Book;
+import com.example.elastic.repository.BookRepository;
 import io.searchbox.client.JestClient;
 import io.searchbox.core.Index;
 import io.searchbox.core.Search;
@@ -19,6 +21,18 @@ public class Springboot03ElasticApplicationTests {
 
     @Autowired
     JestClient jestClient;
+
+    @Autowired
+    BookRepository bookRepository;
+
+    @Test
+    public void test02() {
+        Book book = new Book();
+        book.setId(1);
+        book.setBookName("西游记");
+        book.setAuthor("吴承恩");
+        bookRepository.index(book);
+    }
 
     @Test
     public void contextLoads() {
