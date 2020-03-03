@@ -3,6 +3,8 @@ package com.example.elastic;
 import com.example.elastic.bean.Article;
 import io.searchbox.client.JestClient;
 import io.searchbox.core.Index;
+import io.searchbox.core.Search;
+import io.searchbox.core.SearchResult;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +34,27 @@ public class Springboot03ElasticApplicationTests {
         Index index = new Index.Builder(article).index("atguigu").type("news").build();
         try {
             jestClient.execute(index);
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @Test
+    public void search() {
+        String json = "{\n" +
+                "    \"query\" : {\n" +
+                "        \"match\" : {\n" +
+                "            \"content\" : \"Hello\"\n" +
+                "        }\n" +
+                "    }\n" +
+                "}";
+        //构建搜索
+        Search search = new Search.Builder(json).addIndex("atguigu").addType("news").build();
+        //执行
+        try {
+            SearchResult result = jestClient.execute(search);
+            //打印出来
+            System.out.println(result.getJsonString());
         } catch (IOException e) {
             e.printStackTrace();
         }
